@@ -1,7 +1,9 @@
-<%if flash.has?(:message)%>
-  <%=flash[:message]%>
-<%end%>
-<h1>Welcome!</h1>
+<div>
+  <%if flash.has?(:message)%>
+    <%=flash[:message]%>
+  <%end%>
+</div>
+<h1>Welcome</h1>
 <div>
   <form method="post" action="/signup">
     <div>

@@ -11,6 +11,24 @@ class ApplicationController < Sinatra::Base
     erb :home
   end
 
+  get "/account" do
+    if User.is_logged_in?(session)
+      @user = User.find(session[:user_id])
+      erb :account
+    else
+      redirect '/'
+    end
+  end
+
+  get '/logout' do
+    if User.is_logged_in?(session)
+      session.clear
+      redirect '/'
+    else
+      redirect '/'
+    end
+  end
+
   post "/signup" do
     user = User.find_by(email: params[:email])
     if user
@@ -21,7 +39,7 @@ class ApplicationController < Sinatra::Base
       redirect "/"
     else
       user = User.create(params)
-      session[:id] = user.id
+      session[:user_id] = user.id
       redirect "/account"
     end
   end
@@ -29,7 +47,7 @@ class ApplicationController < Sinatra::Base
   post "/login" do
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
-      session[:id] = user.id
+      session[:user_id] = user.id
       redirect "/account"
     elsif params[:email] == "" || params[:password] == ""
       flash[:message] = "Please enter an email and password"
@@ -40,11 +58,16 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  def current_user
-    !!session[:user_id]
+  patch '/account' do
+    user = User.find(session[:user_id])
+    user.update(email: params[:email]) if params[:email] != ""
+    user.update(password: params[:password]) if params[:password] != ""
+    if params[:email] == "" && params[:password] == ""
+      flash[:message] = "No edits were made"
+    else
+      flash[:message] = "Your account has been updated"
+    end
+    redirect '/account'
   end
 
-  def logged_in?
-    User.find(session[:user_id])
-  end
 end

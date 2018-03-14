@@ -1,0 +1,29 @@
+<div>
+  <%if flash.has?(:message)%>
+    <%=flash[:message]%>
+  <%end%>
+</div>
+<h1>Welcome to Your Account</h1>
+<div>Email: <%=@user.email%></div>
+<div>Edit:</div>
+<div>
+  <form method="post" action="/account">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <div>
+      <label for="edit_email">New Email</label>
+      <input id="edit_email" type="email" name="email">
+    </div>
+    <div>
+      <label for="edit_password">New Password</label>
+      <input id="edit_password" type="password" name="password">
+    </div>
+    <div>
+      <input id="edit_submit" type="submit" value="Submit Edits">
+    </div>
+  </form>
+</div>
+<div>
+  <form method="get" action="/logout">
+    <input type="submit" value="Log Out">
+  </form>
+</div>
