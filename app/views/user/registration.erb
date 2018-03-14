@@ -1,9 +1,15 @@
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/account">Account</a>
+  </nav>
+</header>
 <div>
   <%if flash.has?(:message)%>
     <%=flash[:message]%>
   <%end%>
 </div>
-<h1>Welcome</h1>
+<h1>Please Sign Up or Log In</h1>
 <div>
   <form method="post" action="/signup">
     <div>

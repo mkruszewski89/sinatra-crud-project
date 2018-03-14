@@ -1,3 +1,9 @@
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/account">Account</a>
+  </nav>
+</header>
 <div>
   <%if flash.has?(:message)%>
     <%=flash[:message]%>
@@ -8,7 +14,7 @@
 <div>Edit:</div>
 <div>
   <form method="post" action="/account">
-    <input id="hidden" type="hidden" name="_method" value="patch">
+    <input type="hidden" name="_method" value="patch">
     <div>
       <label for="edit_email">New Email</label>
       <input id="edit_email" type="email" name="email">
@@ -25,5 +31,11 @@
 <div>
   <form method="get" action="/logout">
     <input type="submit" value="Log Out">
+  </form>
+</div>
+<div>
+  <form method="post" action="/account">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete Account">
   </form>
 </div>

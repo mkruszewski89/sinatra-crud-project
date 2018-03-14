@@ -70,4 +70,10 @@ class UserController < Sinatra::Base
     redirect '/account'
   end
 
+  delete '/account' do
+    User.find(session[:user_id]).destroy
+    flash[:message] = "Your account has been deleted"
+    redirect '/registration'
+  end
+
 end
