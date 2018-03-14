@@ -7,6 +7,10 @@ class UserController < Sinatra::Base
     set :views, "app/views/user"
   end
 
+  get "/" do
+    erb :home
+  end
+
   get "/registration" do
     erb :registration
   end
@@ -21,12 +25,8 @@ class UserController < Sinatra::Base
   end
 
   get '/logout' do
-    if User.is_logged_in?(session)
-      session.clear
-      redirect '/registration'
-    else
-      redirect '/registration'
-    end
+    session.clear if User.is_logged_in?(session)
+    redirect '/'
   end
 
   post "/signup" do
