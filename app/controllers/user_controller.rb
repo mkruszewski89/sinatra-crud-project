@@ -1,14 +1,14 @@
-class ApplicationController < Sinatra::Base
+class UserController < Sinatra::Base
 
   configure do
     use Rack::Flash
     enable :sessions
     set :session_secret, "password_security"
-    set :views, "app/views"
+    set :views, "app/views/user"
   end
 
-  get "/" do
-    erb :home
+  get "/registration" do
+    erb :registration
   end
 
   get "/account" do
@@ -16,16 +16,16 @@ class ApplicationController < Sinatra::Base
       @user = User.find(session[:user_id])
       erb :account
     else
-      redirect '/'
+      redirect '/registration'
     end
   end
 
   get '/logout' do
     if User.is_logged_in?(session)
       session.clear
-      redirect '/'
+      redirect '/registration'
     else
-      redirect '/'
+      redirect '/registration'
     end
   end
 
@@ -33,10 +33,10 @@ class ApplicationController < Sinatra::Base
     user = User.find_by(email: params[:email])
     if user
       flash[:message] = "Email already in use"
-      redirect "/"
+      redirect "/registartion"
     elsif params[:email] == "" || params[:password] == ""
       flash[:message] = "Please enter an email and password"
-      redirect "/"
+      redirect "/registration"
     else
       user = User.create(params)
       session[:user_id] = user.id
@@ -51,10 +51,10 @@ class ApplicationController < Sinatra::Base
       redirect "/account"
     elsif params[:email] == "" || params[:password] == ""
       flash[:message] = "Please enter an email and password"
-      redirect "/"
+      redirect "/registration"
     else
       flash[:message] = "Email and password combination not found"
-      redirect "/"
+      redirect "/registration"
     end
   end
 
