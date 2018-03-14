@@ -33,7 +33,7 @@ class UserController < Sinatra::Base
     user = User.find_by(email: params[:email])
     if user
       flash[:message] = "Email already in use"
-      redirect "/registartion"
+      redirect "/registration"
     elsif params[:email] == "" || params[:password] == ""
       flash[:message] = "Please enter an email and password"
       redirect "/registration"
@@ -72,6 +72,7 @@ class UserController < Sinatra::Base
 
   delete '/account' do
     User.find(session[:user_id]).destroy
+    session.clear
     flash[:message] = "Your account has been deleted"
     redirect '/registration'
   end
