@@ -17,5 +17,14 @@ class RecipeController < Sinatra::Base
     end
   end
 
+  get '/recipes/new' do
+    if User.is_logged_in?(session)
+      @ingredients = Ingredient.all.sort_by {|ingredient| ingredient.name}
+      erb :new
+    else
+      flash[:message] = "You must be logged in to create a recipe"
+      redirect '../registration'
+    end
+  end
 
 end
