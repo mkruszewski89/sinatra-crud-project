@@ -11,8 +11,9 @@
   <%end%>
 </div>
 <h1>Account</h1>
-<div>Email: <%=@user.email%></div>
-<div>Edit:</div>
+<div>Email: <%=@user.email%></div><br>
+
+<div>Edit Your Account:</div>
 <div>
   <form method="post" action="/account">
     <input type="hidden" name="_method" value="patch">
