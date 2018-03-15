@@ -4,6 +4,11 @@
     <a href="/recipes">Recipes</a>
     <a href="/account">Account</a>
   </nav>
+  <div>
+    <%if flash.has?(:message)%>
+      <%=flash[:message]%>
+    <%end%>
+  </div>
 </header>
 <h1>All Recipes</h1>
   <nav>

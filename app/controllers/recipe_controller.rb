@@ -63,7 +63,7 @@ class RecipeController < Sinatra::Base
   end
 
   post '/recipes' do
-    if params[:recipe] == "" || (!params[:recipe][:instructions] || params[:recipe][:instructions].empty?) || (!params[:ingredients] || params[:ingredients] == "")
+    if params[:recipe] == "" || (!params[:recipe][:instructions] || params[:recipe][:instructions].all?{|instruction| instruction==""}) || (!params[:ingredients] || params[:ingredients][0].keys.any?{|key| key == ""} || params[:ingredients][0].values.any?{|value| value == ""})
       flash[:message] = "Recipes must have a name, ingredients, and instructions"
       redirect '/recipes/new'
     else
@@ -84,9 +84,9 @@ class RecipeController < Sinatra::Base
 
   patch '/recipes/:id' do
     recipe = Recipe.find(params[:id])
-    if params[:recipe] == "" || (!params[:recipe][:instructions] || params[:recipe][:instructions].empty?) || (!params[:ingredients] || params[:ingredients] == "")
+    if params[:recipe] == "" || (!params[:recipe][:instructions] || params[:recipe][:instructions].all?{|instruction| instruction==""}) || (!params[:ingredients] || params[:ingredients][0].keys.any?{|key| key == ""} || params[:ingredients][0].values.any?{|value| value == ""})
       flash[:message] = "Recipes must have a name, ingredients, and instructions"
-      redirect '/recipes/#{recipe.id}/edit'
+      redirect "/recipes/#{recipe.id}/edit"
     else
       recipe.update(name: params[:recipe][:name], instructions: params[:recipe][:instructions].collect{|instruction|instruction if instruction!=""}.compact.join("|"))
       ingredients = params[:ingredients].collect {|ingredient_hash| Ingredient.find_or_create_by(name: ingredient_hash[:name]) if ingredient_hash[:name] != "" && ingredient_hash[:quantity] != ""}.compact
@@ -99,6 +99,13 @@ class RecipeController < Sinatra::Base
       end
       redirect "/recipes/#{recipe.id}"
     end
+  end
+
+  delete '/recipes/:id' do
+    recipe = Recipe.find(params[:id])
+    flash[:message] = "#{recipe.name} has been deleted"
+    recipe.destroy
+    redirect "recipes/yourrecipes"
   end
 
 end

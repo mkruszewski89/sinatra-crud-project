@@ -36,12 +36,12 @@
     <a href="/recipes">Recipes</a>
     <a href="/account">Account</a>
   </nav>
+  <div>
+    <%if flash.has?(:message)%>
+      <%=flash[:message]%>
+    <%end%>
+  </div>
 </header>
-<div>
-  <%if flash.has?(:message)%>
-    <%=flash[:message]%>
-  <%end%>
-</div>
 <h1>Create a Recipe</h1>
 <nav>
   <a href="/recipes">All Recipes</a>

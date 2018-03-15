@@ -36,12 +36,12 @@
     <a href="/recipes">Recipes</a>
     <a href="/account">Account</a>
   </nav>
+  <div>
+    <%if flash.has?(:message)%>
+      <%=flash[:message]%>
+    <%end%>
+  </div>
 </header>
-<div>
-  <%if flash.has?(:message)%>
-    <%=flash[:message]%>
-  <%end%>
-</div>
 <h1>Edit <%=@recipe.name%></h1>
 <nav>
   <a href="/recipes">All Recipes</a>
@@ -69,4 +69,8 @@
   </div>
   <input type="button" value="Add Instruction" onclick="addInstruction();"><br></br>
   <input type="submit" value="Edit Recipe">
+</form>
+<form method="post" action="/recipes/<%=@recipe.id%>">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Recipe">
 </form>
