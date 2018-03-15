@@ -2,7 +2,7 @@
   <script type='text/javascript'>
     function addIngredient(){
       var container = document.getElementById("new_recipe_ingredients");
-      var quantity_label = document.createTextNode("Quantity (grams): ");
+      var quantity_label = document.createTextNode("Quantity: ");
       var quantity_input = document.createElement("input");
       quantity_input.type = "text";
       quantity_input.name = "ingredients[][quantity]";
@@ -37,12 +37,17 @@
     <a href="/account">Account</a>
   </nav>
 </header>
-<h1>Create a Recipe</h1>
 <div>
   <%if flash.has?(:message)%>
     <%=flash[:message]%>
   <%end%>
 </div>
+<h1>Create a Recipe</h1>
+<nav>
+  <a href="/recipes">All Recipes</a>
+  <a href="/recipes/favorites">Favorites</a>
+  <a href="/recipes/yourrecipes">Your Recipes</a>
+</nav><br>
 <form method="post" action="/recipes">
   <div>
     Recipe Name: <input id="new_recipe_name" type="text" name="recipe[name]">
@@ -57,4 +62,3 @@
   <input type="button" value="Add Instruction" onclick="addInstruction();"><br></br>
   <input type="submit" value="Create Recipe">
 </form>
-<form method="get" action="/recipes"><input type="submit" value="Cancel"></form>

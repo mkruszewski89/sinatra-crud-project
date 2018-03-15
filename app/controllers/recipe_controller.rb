@@ -17,6 +17,27 @@ class RecipeController < Sinatra::Base
     end
   end
 
+  get '/recipes/favorites' do
+    if User.is_logged_in?(session)
+      user = User.find(session[:user_id])
+      erb :favorites
+    else
+      flash[:message] = "You must be logged in to view favorite recipes"
+      redirect '../registration'
+    end
+  end
+
+  get '/recipes/yourrecipes' do
+    if User.is_logged_in?(session)
+      user = User.find(session[:user_id])
+      @recipes = user.recipes
+      erb :yourrecipes
+    else
+      flash[:message] = "You must be logged in to view your recipes"
+      redirect '../registration'
+    end
+  end
+
   get '/recipes/new' do
     if User.is_logged_in?(session)
       @recipes = Recipe.all
@@ -27,26 +48,22 @@ class RecipeController < Sinatra::Base
     end
   end
 
-  get '/recipes/view' do
+  get '/recipes/:id' do
     if User.is_logged_in?(session)
-      user = User.find(session[:user_id])
-      @recipes = user.recipes
+      @user = User.find(session[:user_id])
+      @recipe = Recipe.find(params[:id])
       erb :view
     else
-      flash[:message] = "You must be logged in to create a recipe"
+      flash[:message] = "You must be logged in to view a recipe"
       redirect '../registration'
     end
-  end
-
-  get '/recipes/:id' do
-
   end
 
   post '/recipes' do
     user = User.find(session[:user_id])
     recipe = Recipe.create(name: params[:recipe][:name], instructions: params[:recipe][:instructions].join("|"))
     ingredients = params[:ingredients].collect {|ingredient_hash| Ingredient.find_or_create_by(name: ingredient_hash[:name])}
-    quantities = params[:ingredients].collect {|ingredient_hash| ingredient_hash[:quantity].to_i}
+    quantities = params[:ingredients].collect {|ingredient_hash| ingredient_hash[:quantity]}
     i=0
     while i < ingredients.length do
       RecipeIngredient.create(recipe: recipe, ingredient: ingredients[i], quantity: quantities[i])
