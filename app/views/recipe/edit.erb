@@ -55,10 +55,17 @@
   </div><br>
   Ingredients:
   <div id="new_recipe_ingredients">
+    <%@recipe.ingredients.each {|ingredient|%>
+      Quantity: <input type="text" name="ingredients[][quantity]" value="<%=RecipeIngredient.find_by(recipe: @recipe, ingredient: ingredient).quantity%>">
+      Name: <input type="text" name="ingredients[][name]" value="<%=ingredient.name%>"><br>
+      <%}%>
   </div>
   <input type="button" value="Add Ingredient" onclick="addIngredient();"><br><br>
   Instructions:
   <div id="new_recipe_instructions">
+    <%@instructions.each {|instruction|%>
+      <input type="textarea" name="recipe[instructions][]" value="<%=instruction%>"><br>
+    <%}%>
   </div>
   <input type="button" value="Add Instruction" onclick="addInstruction();"><br></br>
   <input type="submit" value="Edit Recipe">
