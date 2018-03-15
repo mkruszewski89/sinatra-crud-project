@@ -7,7 +7,23 @@
 </header>
 <h1><%=@recipe.name%></h1>
   <nav>
-    <a href="/recipes/favorites">Favorites</a>
+    <a href="/recipes">All Recipes</a>
     <a href="/recipes/yourrecipes">Your Recipes</a>
     <a href="/recipes/new">Create a Recipe</a>
-  </nav>
+  </nav><br>
+<div>By: <%=@recipe.user.email%></div><br>
+<%if @user.id == @recipe.user.id%>
+  <form method="get" action="/recipes/<%=@recipe.id%>/edit"><input type=submit value="Edit This Recipe"></form>
+<%end%>
+<div>
+  <h2>Ingredients:</h2>
+  <%@recipe.ingredients.each {|ingredient|%>
+    <%=RecipeIngredient.find_by(recipe: @recipe, ingredient: ingredient).quantity%>
+    <%=ingredient.name%><br>
+  <%}%>
+</div>
+  <h2>Instructions:</h2>
+  <%@instructions.each_with_index {|instruction, index|%>
+    <%=index+1%>. <%=instruction%><br>
+  <%}%>
+<div>

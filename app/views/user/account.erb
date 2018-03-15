@@ -12,8 +12,10 @@
 </div>
 <h1>Account</h1>
 <div>Email: <%=@user.email%></div><br>
-
-<div>Edit Your Account:</div>
+<form method="get" action="/logout">
+  <input type="submit" value="Log Out">
+</form>
+<div>Edit Your Account:</div><br>
 <div>
   <form method="post" action="/account">
     <input type="hidden" name="_method" value="patch">
@@ -28,11 +30,6 @@
     <div>
       <input id="edit_submit" type="submit" value="Submit Edits">
     </div>
-  </form>
-</div>
-<div>
-  <form method="get" action="/logout">
-    <input type="submit" value="Log Out">
   </form>
 </div>
 <div>

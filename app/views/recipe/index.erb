@@ -7,12 +7,13 @@
 </header>
 <h1>All Recipes</h1>
   <nav>
-    <a href="/recipes/favorites">Favorites</a>
+    <a href="/recipes">All Recipes</a>
     <a href="/recipes/yourrecipes">Your Recipes</a>
     <a href="/recipes/new">Create a Recipe</a>
-  </nav>
+  </nav><br>
   <div>
     <%@recipes.each {|instance|%>
-      <a href="/recipes/<%=instance.id%>"><%=instance.name%></a><br>
+      <a href="/recipes/<%=instance.id%>"><%=instance.name%></a>
+       by <%=instance.user.email%><br>
     <%}%>
   </div>

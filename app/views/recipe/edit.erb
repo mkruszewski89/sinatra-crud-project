@@ -42,13 +42,14 @@
     <%=flash[:message]%>
   <%end%>
 </div>
-<h1>Create a Recipe</h1>
+<h1>Edit @recipe.name</h1>
 <nav>
   <a href="/recipes">All Recipes</a>
   <a href="/recipes/yourrecipes">Your Recipes</a>
   <a href="/recipes/new">Create a Recipe</a>
 </nav><br>
-<form method="post" action="/recipes">
+<form method="post" action="/recipes/<%=@recipe.id%>">
+  <input type="hidden" name="_method" value="patch">
   <div>
     Recipe Name: <input id="new_recipe_name" type="text" name="recipe[name]">
   </div><br>
