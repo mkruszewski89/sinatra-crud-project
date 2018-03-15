@@ -68,9 +68,9 @@ class RecipeController < Sinatra::Base
       redirect '/recipes/new'
     else
       user = User.find(session[:user_id])
-      recipe = Recipe.create(name: params[:recipe][:name], instructions: params[:recipe][:instructions].join("|"))
-      ingredients = params[:ingredients].collect {|ingredient_hash| Ingredient.find_or_create_by(name: ingredient_hash[:name])}
-      quantities = params[:ingredients].collect {|ingredient_hash| ingredient_hash[:quantity]}
+      recipe = Recipe.create(name: params[:recipe][:name], instructions: params[:recipe][:instructions].collect{|instruction|instruction if instruction!=""}.compact.join("|"))
+      ingredients = params[:ingredients].collect {|ingredient_hash| Ingredient.find_or_create_by(name: ingredient_hash[:name]) if ingredient_hash[:name] != "" && ingredient_hash[:quantity] != ""}.compact
+      quantities = params[:ingredients].collect {|ingredient_hash| ingredient_hash[:quantity] if ingredient_hash[:name] != "" && ingredient_hash[:quantity] != ""}.compact
       i=0
       while i < ingredients.length do
         RecipeIngredient.create(recipe: recipe, ingredient: ingredients[i], quantity: quantities[i])
@@ -83,7 +83,7 @@ class RecipeController < Sinatra::Base
   end
 
   patch '/recipes/:id' do
-    
+
   end
 
 end
