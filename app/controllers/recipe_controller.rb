@@ -30,7 +30,6 @@ class RecipeController < Sinatra::Base
 
   get '/recipes/new' do
     if User.is_logged_in?(session)
-      @recipes = Recipe.all
       erb :new
     else
       flash[:message] = "You must be logged in to create a recipe"
